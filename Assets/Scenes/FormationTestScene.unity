@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 356772535}
   - component: {fileID: 356772534}
   - component: {fileID: 356772533}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Unit (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,6 +167,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81dc11c17e248be4bb75a92da9055534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  unitRadius: 0.5
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!136 &356772534
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -260,7 +264,7 @@ GameObject:
   - component: {fileID: 396592523}
   - component: {fileID: 396592522}
   - component: {fileID: 396592521}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Unit (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,6 +299,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81dc11c17e248be4bb75a92da9055534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  unitRadius: 0.5
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!136 &396592522
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1045,7 +1053,7 @@ GameObject:
   - component: {fileID: 907483405}
   - component: {fileID: 907483404}
   - component: {fileID: 907483403}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Unit (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1080,6 +1088,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81dc11c17e248be4bb75a92da9055534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  unitRadius: 0.5
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!136 &907483404
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1173,7 +1185,7 @@ GameObject:
   - component: {fileID: 951289194}
   - component: {fileID: 951289193}
   - component: {fileID: 951289192}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Unit (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1208,6 +1220,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81dc11c17e248be4bb75a92da9055534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  unitRadius: 0.5
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!136 &951289193
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1393,7 +1409,7 @@ GameObject:
   - component: {fileID: 968705867}
   - component: {fileID: 968705866}
   - component: {fileID: 968705865}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Unit (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1428,6 +1444,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81dc11c17e248be4bb75a92da9055534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  unitRadius: 0.5
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!136 &968705866
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1969,7 +1989,7 @@ GameObject:
   - component: {fileID: 1334998810}
   - component: {fileID: 1334998809}
   - component: {fileID: 1334998808}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Unit (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2004,6 +2024,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81dc11c17e248be4bb75a92da9055534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  unitRadius: 0.5
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!136 &1334998809
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2097,7 +2121,7 @@ GameObject:
   - component: {fileID: 1354156196}
   - component: {fileID: 1354156195}
   - component: {fileID: 1354156194}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Unit (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2132,6 +2156,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81dc11c17e248be4bb75a92da9055534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  unitRadius: 0.5
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!136 &1354156195
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2225,7 +2253,7 @@ GameObject:
   - component: {fileID: 1376105691}
   - component: {fileID: 1376105690}
   - component: {fileID: 1376105689}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Unit (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2260,6 +2288,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81dc11c17e248be4bb75a92da9055534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  unitRadius: 0.5
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!136 &1376105690
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2578,7 +2610,7 @@ GameObject:
   - component: {fileID: 2050731198}
   - component: {fileID: 2050731197}
   - component: {fileID: 2050731196}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Unit (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2613,6 +2645,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81dc11c17e248be4bb75a92da9055534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  unitRadius: 0.5
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!136 &2050731197
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2706,7 +2742,7 @@ GameObject:
   - component: {fileID: 2080744817}
   - component: {fileID: 2080744816}
   - component: {fileID: 2080744820}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Unit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2821,6 +2857,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81dc11c17e248be4bb75a92da9055534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  unitRadius: 0.5
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &2089169631
 GameObject:
   m_ObjectHideFlags: 0

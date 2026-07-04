@@ -79,6 +79,38 @@ public class UnitController : MonoBehaviour
     private void Move()
     {
         transform.position = Vector3.MoveTowards(transform.position, _unit.Position, _unit.MoveSpeed * Time.deltaTime);
+        ResolveUnitCollision();
+    }
+
+    [SerializeField] private float unitRadius = 0.5f;
+    [SerializeField] private LayerMask unitLayer;
+
+    private void ResolveUnitCollision()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, unitRadius, unitLayer);
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.transform == transform)
+                continue;
+
+            Vector3 diff = transform.position - hit.transform.position;
+            diff.y = 0.0f;
+
+            float distance = diff.magnitude;
+
+            if (distance < 0.0001f)
+                continue;
+
+            float overlap = unitRadius * 2.0f - distance;
+
+            if (overlap > 0.0f)
+            {
+                Vector3 push = diff.normalized * overlap * 0.5f;
+                transform.position += push;
+                hit.transform.position -= push;
+            }
+        }
     }
 
 }
