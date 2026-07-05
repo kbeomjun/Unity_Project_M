@@ -85,6 +85,7 @@ class LineFormation : Formation
         }
 
         List<List<Vector3>> result = new List<List<Vector3>>();
+        
         result.Add(positions);
         result.Add(directions);
 
@@ -112,10 +113,12 @@ class SquareFormation : Formation
         float rowOffset = minRowOffset;
         float columnOffset = maxColumnOffset;
 
+        Vector3 newDirection = Vector3.zero;
+
         while (index < unitCount)
         {
             positions.Add(centerPosition + rowOffset * spacing * right + columnOffset * spacing * direction);
-            directions.Add(direction);
+            directions.Add(newDirection);
 
             if (rowOffset < maxRowOffset && columnOffset == maxColumnOffset)
             {
@@ -125,6 +128,8 @@ class SquareFormation : Formation
                 {
                     maxColumnOffset -= 1;
                 }
+
+                newDirection = direction;
             }
             else if (columnOffset > minColumnOffset && rowOffset == maxRowOffset)
             {
@@ -134,6 +139,8 @@ class SquareFormation : Formation
                 {
                     maxRowOffset -= 1;
                 }
+
+                newDirection = new Vector3(direction.z, 0.0f, -direction.x);
             }
             else if (rowOffset > minRowOffset && columnOffset == minColumnOffset)
             {
@@ -143,6 +150,8 @@ class SquareFormation : Formation
                 {
                     minColumnOffset += 1;
                 }
+
+                newDirection = direction * -1;
             }
             else if (columnOffset < maxColumnOffset && rowOffset == minRowOffset)
             {
@@ -153,12 +162,14 @@ class SquareFormation : Formation
                     minRowOffset += 1;
                 }
 
+                newDirection = new Vector3(-direction.z, 0.0f, direction.x);
             }
 
             index++;
         }
 
         List<List<Vector3>> result = new List<List<Vector3>>();
+        
         result.Add(positions);
         result.Add(directions);
 
