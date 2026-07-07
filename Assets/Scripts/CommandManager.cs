@@ -17,6 +17,11 @@ public enum MoveCommand
 
 public class CommandManager : MonoBehaviour
 {
+    [SerializeField] private TroopController[] _troopControllers;
+    [SerializeField] private GameObject _camera;
+    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private GameObject _flag;
+
     private CommandMenu _commandMenu = CommandMenu.None;
 
     private PlayerControls _controls;
@@ -24,6 +29,7 @@ public class CommandManager : MonoBehaviour
     private void Awake()
     {
         _controls = new PlayerControls();
+        _flag.SetActive(false);
     }
 
     private void OnEnable()
@@ -46,6 +52,8 @@ public class CommandManager : MonoBehaviour
         {
             ExecuteCommand();
         }
+
+        UpdateFlag();
     }
 
     private void SelectMenu()
@@ -54,16 +62,26 @@ public class CommandManager : MonoBehaviour
         {
             Debug.Log($"F1 Pressed");
             _commandMenu = CommandMenu.Move;
+            _flag.SetActive(true);
         }
         else if (_controls.Command.F2.WasPressedThisFrame())
         {
             Debug.Log($"F2 Pressed");
             _commandMenu = CommandMenu.Formation;
+            _flag.SetActive(true);
         }
         else if (_controls.Command.F3.WasPressedThisFrame())
         {
             Debug.Log($"F3 Pressed");
             _commandMenu = CommandMenu.Direction;
+            _flag.SetActive(true);
+        }
+        else if (_controls.Command.Esc.WasPressedThisFrame())
+        {
+            Debug.Log($"Esc Pressed");
+            _commandMenu = CommandMenu.None;
+            _flag.SetActive(true);
+            ResetMenu();
         }
     }
 
@@ -89,12 +107,18 @@ public class CommandManager : MonoBehaviour
         {
             // 이동
             Debug.Log($"F1-F1 Pressed");
+            if (TryGetLookPoint(out Vector3 point))
+            {
+                point.y += 1.0f;
+                _troopControllers[0].Move(point);
+            }
             ResetMenu();
         }
         else if (_controls.Command.F2.WasPressedThisFrame())
         {
             // 따라오기
             Debug.Log($"F1-F2 Pressed");
+            _troopControllers[0].Follow();
             ResetMenu();
         }
         else if (_controls.Command.F3.WasPressedThisFrame())
@@ -113,6 +137,31 @@ public class CommandManager : MonoBehaviour
     private void ResetMenu()
     {
         _commandMenu = CommandMenu.None;
+        _flag.SetActive(false);
+    }
+
+    private bool TryGetLookPoint(out Vector3 point)
+    {
+        Ray ray = new Ray(_camera.transform.position, _camera.transform.forward);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f, _groundLayer))
+        {
+            point = hit.point;
+            return true;
+        }
+
+        point = Vector3.zero;
+        return false;
+    }
+
+    private void UpdateFlag()
+    {
+
+        if (TryGetLookPoint(out Vector3 point))
+        {
+            point.y += 1.0f;
+            _flag.transform.position = point;
+        }
     }
 
 }

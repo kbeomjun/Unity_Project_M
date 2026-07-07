@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class TroopController : MonoBehaviour
 {
-    [SerializeField] private FormationType _newFormation = FormationType.LineFormation;
-    [SerializeField] private int _maxRow = -1;
+    [SerializeField] private PlayerController _player;
 
     private Troop _troop;
+    private FormationType _newFormation = FormationType.LineFormation;
+    private int _maxRow = -1;
 
-    void Start()
+    private void Start()
     {
         List<UnitController> controllers = GetComponentsInChildren<UnitController>().ToList();
         List<Unit> units = controllers.Select(c => c.Unit).ToList();
@@ -18,7 +19,7 @@ public class TroopController : MonoBehaviour
         _troop.SetFormation(_newFormation);
     }
 
-    void Update()
+    private void Update()
     {
         if(_newFormation != _troop.FormationType)
         {
@@ -27,8 +28,25 @@ public class TroopController : MonoBehaviour
 
         if(_maxRow >= 1 && _maxRow != _troop.MaxRow)
         {
-            _troop.MaxRow = _maxRow;
+            _troop.SetMaxRow(_maxRow);
         }
+
+        if(_troop.State == TroopState.Follow)
+        {
+            Vector3 centerPosition = _player.transform.position - _troop.Direction * _troop.FollowDistance;
+            _troop.SetCenterPosition(centerPosition);
+        }
+    }
+
+    public void Move(Vector3 centerPosition)
+    {
+        _troop.SetCenterPosition(centerPosition);
+        _troop.State = TroopState.None;
+    }
+
+    public void Follow()
+    {
+        _troop.State = TroopState.Follow;
     }
 
 }

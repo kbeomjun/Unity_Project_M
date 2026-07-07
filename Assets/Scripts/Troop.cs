@@ -8,83 +8,90 @@ public enum FormationType
     SquareFormation
 }
 
+public enum TroopState
+{
+    None,
+    Follow,
+    Charge,
+    Retreat
+}
+
 public class Troop
 {
-    private int Count = 0;
+    public static int Count = 0;
 
-    private int _id;
-    private List<Unit> _units = new List<Unit>();
-    private Formation _formation;
-    private Vector3 _centerPosition;
-    private Vector3 _direction;
-    private int _maxRow;
-    private float _spacing;
-
-    private FormationType _formationType;
-
-    public int MaxRow
-    {
-        get => _maxRow;
-
-        set 
-        {
-            if (value < 1) return;
-            
-            Debug.Log($"Troop{_id} - SetMaxLength:{value}");
-            _maxRow = value;
-            UpdateFormation();
-        }
-    }
-
-    public FormationType FormationType
-    {
-        get => _formationType;
-    }
+    public int Id;
+    public List<Unit> Units = new List<Unit>();
+    public Formation Formation { get; private set; }
+    public Vector3 CenterPosition { get; private set; }
+    public Vector3 Direction;
+    public int MaxRow { get; private set; }
+    public float Spacing;
+    public float FollowDistance = 5.0f;
+    public FormationType FormationType;
+    public TroopState State;
 
     public Troop(List<Unit> units)
     {
-        _id = ++Count;
-        _units = units;
-        _formation = new LineFormation();
-        _centerPosition = new Vector3(0.0f, 0.0f, 0.0f);
-        _direction = Vector3.Normalize(new Vector3(0.0f, 0.0f, 1.0f));
-        _maxRow = 5;
-        _spacing = 2.0f;
-        _formationType = FormationType.LineFormation;
+        Id = ++Count;
+        Units = units;
+        Formation = new LineFormation();
+        CenterPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        Direction = Vector3.Normalize(new Vector3(0.0f, 0.0f, 1.0f));
+        MaxRow = 5;
+        Spacing = 2.0f;
+        FormationType = FormationType.LineFormation;
+        State = TroopState.None;
     }
 
     public void SetFormation(FormationType formationType)
     {
-        Debug.Log($"Troop{_id} - SetFormation:{formationType.ToString()}");
+        Debug.Log($"Troop{Id} - SetFormation:{formationType.ToString()}");
 
-        _formationType = formationType;
+        FormationType = formationType;
 
         switch (formationType)
         {
             case FormationType.LineFormation:
-                _formation = new LineFormation();
+                Formation = new LineFormation();
                 break;
 
             case FormationType.SquareFormation:
-                _formation = new SquareFormation();
+                Formation = new SquareFormation();
                 break;
         }
 
         UpdateFormation();
     }
 
+    public void SetCenterPosition(Vector3 centerPosition)
+    {
+        Debug.Log($"Troop{Id} - SetCenterPosition:({centerPosition.x}, {centerPosition.y}, {centerPosition.z})");
+        CenterPosition = centerPosition;
+        UpdateFormation();
+    }
+
+    public void SetMaxRow(int maxRow)
+    {
+        if (maxRow < 1) return;
+        Debug.Log($"Troop{Id} - SetMaxLength:{maxRow}");
+        MaxRow = maxRow;
+        UpdateFormation();
+    }
+
     public void UpdateFormation()
     {
-        if (_formation == null) return;
+        if (Formation == null) return;
 
-        List<Vector3> positions = _formation.CalculatePositions(_units.Count, _centerPosition, _direction, _maxRow, _spacing)[0];
-        List<Vector3> directions = _formation.CalculatePositions(_units.Count, _centerPosition, _direction, _maxRow, _spacing)[1];
+        List<List<Vector3>> result = Formation.CalculatePositions(Units.Count, CenterPosition, Direction, MaxRow, Spacing);
+        List<Vector3> positions = result[0];
+        List<Vector3> directions = result[1];
 
-        for (int i = 0; i < _units.Count; i++)
+        for (int i = 0; i < Units.Count; i++)
         {
-            _units[i].Position = positions[i];
-            _units[i].Direction = directions[i];
-            _units[i].State = UnitState.Move;
+            Units[i].Position = positions[i];
+            Units[i].Direction = directions[i];
+            Units[i].State = UnitState.Move;
         }
     }
 
