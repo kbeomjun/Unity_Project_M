@@ -46,8 +46,6 @@ public class Troop
 
     public void SetFormation(FormationType formationType)
     {
-        Debug.Log($"Troop{Id} - SetFormation:{formationType.ToString()}");
-
         FormationType = formationType;
 
         switch (formationType)
@@ -66,7 +64,6 @@ public class Troop
 
     public void SetCenterPosition(Vector3 centerPosition)
     {
-        Debug.Log($"Troop{Id} - SetCenterPosition:({centerPosition.x}, {centerPosition.y}, {centerPosition.z})");
         CenterPosition = centerPosition;
         UpdateFormation();
     }
@@ -74,7 +71,7 @@ public class Troop
     public void SetMaxRow(int maxRow)
     {
         if (maxRow < 1) return;
-        Debug.Log($"Troop{Id} - SetMaxLength:{maxRow}");
+        
         MaxRow = maxRow;
         UpdateFormation();
     }
@@ -82,7 +79,7 @@ public class Troop
     public void UpdateFormation()
     {
         if (Formation == null) return;
-
+        
         List<List<Vector3>> result = Formation.CalculatePositions(Units.Count, CenterPosition, Direction, MaxRow, Spacing);
         List<Vector3> positions = result[0];
         List<Vector3> directions = result[1];

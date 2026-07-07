@@ -2,10 +2,11 @@ using UnityEngine;
 
 public enum CommandMenu
 {
-    None,
+    Root,
     Move,
     Formation,
-    Direction
+    Direction,
+    None
 }
 
 public enum MoveCommand
@@ -21,6 +22,7 @@ public class CommandManager : MonoBehaviour
     [SerializeField] private GameObject _camera;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private GameObject _flag;
+    [SerializeField] private CommandUIManager _uiManager;
 
     private CommandMenu _commandMenu = CommandMenu.None;
 
@@ -44,16 +46,31 @@ public class CommandManager : MonoBehaviour
 
     private void Update()
     {
-        if (_commandMenu == CommandMenu.None)
+        switch (_commandMenu)
         {
-            SelectMenu();
-        }
-        else
-        {
-            ExecuteCommand();
+            case CommandMenu.None:
+                UpdateNone();
+                break;
+
+            case CommandMenu.Root:
+                SelectMenu();
+                break;
+
+            default:
+                ExecuteCommand();
+                break;
         }
 
         UpdateFlag();
+    }
+
+    private void UpdateNone()
+    {
+        if (_controls.Command.Tab.WasPressedThisFrame())
+        {
+            _commandMenu = CommandMenu.Root;
+            _uiManager.Show(CommandMenu.Root);
+        }
     }
 
     private void SelectMenu()
@@ -63,24 +80,25 @@ public class CommandManager : MonoBehaviour
             Debug.Log($"F1 Pressed");
             _commandMenu = CommandMenu.Move;
             _flag.SetActive(true);
+            _uiManager.Show(_commandMenu);
         }
         else if (_controls.Command.F2.WasPressedThisFrame())
         {
             Debug.Log($"F2 Pressed");
             _commandMenu = CommandMenu.Formation;
             _flag.SetActive(true);
+            _uiManager.Show(_commandMenu);
         }
         else if (_controls.Command.F3.WasPressedThisFrame())
         {
             Debug.Log($"F3 Pressed");
             _commandMenu = CommandMenu.Direction;
             _flag.SetActive(true);
+            _uiManager.Show(_commandMenu);
         }
         else if (_controls.Command.Esc.WasPressedThisFrame())
         {
             Debug.Log($"Esc Pressed");
-            _commandMenu = CommandMenu.None;
-            _flag.SetActive(true);
             ResetMenu();
         }
     }
@@ -130,7 +148,7 @@ public class CommandManager : MonoBehaviour
         else if (_controls.Command.Esc.WasPressedThisFrame())
         {
             Debug.Log($"F1-Esc Pressed");
-            ResetMenu();
+            BackToRoot();
         }
     }
 
@@ -138,6 +156,14 @@ public class CommandManager : MonoBehaviour
     {
         _commandMenu = CommandMenu.None;
         _flag.SetActive(false);
+        _uiManager.HideAll();
+    }
+
+    private void BackToRoot()
+    {
+        _commandMenu = CommandMenu.Root;
+        _flag.SetActive(false);
+        _uiManager.Show(CommandMenu.Root);
     }
 
     private bool TryGetLookPoint(out Vector3 point)

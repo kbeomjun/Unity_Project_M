@@ -6817,8 +6817,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2a61cd9c7c5d4d4ab06dbb5e1bfde2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TroopController
-  _newFormation: 0
-  _maxRow: 5
   _player: {fileID: 1483148045}
 --- !u!1 &2121436954
 GameObject:
@@ -6969,6 +6967,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2134786308}
   - component: {fileID: 2134786309}
+  - component: {fileID: 2134786310}
   m_Layer: 0
   m_Name: CommandManager
   m_TagString: Untagged
@@ -7010,6 +7009,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   _flag: {fileID: 1987968194}
+  _uiManager: {fileID: 2134786310}
+--- !u!114 &2134786310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2134786307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14499dceccf44a34292f9282fbe4a157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CommandUIManager
+  _commandMenuUI: {fileID: 1068694271}
+  _moveCommandUI: {fileID: 422659433}
+  _formationCommandUI: {fileID: 969668955}
+  _directionCommandUI: {fileID: 1804051294}
 --- !u!1 &2139879245
 GameObject:
   m_ObjectHideFlags: 0
