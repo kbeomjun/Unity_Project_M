@@ -68,6 +68,7 @@ public class CommandManager : MonoBehaviour
     {
         if (_controls.Command.Tab.WasPressedThisFrame())
         {
+            Debug.Log($"Tab Pressed");
             _commandMenu = CommandMenu.Root;
             _uiManager.Show(CommandMenu.Root);
         }
