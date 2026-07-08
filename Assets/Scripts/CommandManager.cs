@@ -117,7 +117,7 @@ public class CommandManager : MonoBehaviour
                 break;
 
             case CommandMenu.Direction:
-                //ExecuteDirectionCommand();
+                ExecuteDirectionCommand();
                 break;
         }
     }
@@ -186,6 +186,21 @@ public class CommandManager : MonoBehaviour
         else if (_controls.Command.Esc.WasPressedThisFrame())
         {
             Debug.Log($"F2-Esc Pressed");
+            BackToRoot();
+        }
+    }
+
+    private void ExecuteDirectionCommand()
+    {
+        if (_controls.Command.F1.WasPressedThisFrame())
+        {
+            // πÊ«‚
+            Debug.Log($"F3-F1 Pressed");
+            ResetMenu();
+        }
+        else if (_controls.Command.Esc.WasPressedThisFrame())
+        {
+            Debug.Log($"F3-Esc Pressed");
             BackToRoot();
         }
     }

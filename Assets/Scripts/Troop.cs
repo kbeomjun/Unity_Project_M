@@ -27,7 +27,7 @@ public class Troop
     public Vector3 Direction;
     public int MaxRow { get; private set; }
     public float Spacing;
-    public float FollowDistance = 5.0f;
+    public float FollowDistance;
     public FormationType FormationType;
     public TroopState State;
 
@@ -40,6 +40,7 @@ public class Troop
         Direction = Vector3.Normalize(new Vector3(0.0f, 0.0f, 1.0f));
         MaxRow = 5;
         Spacing = 2.0f;
+        FollowDistance = 5.0f;
         FormationType = FormationType.LineFormation;
         State = TroopState.None;
     }
