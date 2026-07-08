@@ -8,7 +8,6 @@ public class TroopController : MonoBehaviour
     [SerializeField] private PlayerController _player;
 
     private Troop _troop;
-    private FormationType _newFormation = FormationType.LineFormation;
     private int _maxRow = -1;
 
     private void Start()
@@ -16,16 +15,10 @@ public class TroopController : MonoBehaviour
         List<UnitController> controllers = GetComponentsInChildren<UnitController>().ToList();
         List<Unit> units = controllers.Select(c => c.Unit).ToList();
         _troop = new Troop(units);
-        _troop.SetFormation(_newFormation);
     }
 
     private void Update()
     {
-        if(_newFormation != _troop.FormationType)
-        {
-            _troop.SetFormation(_newFormation);
-        }
-
         if(_maxRow >= 1 && _maxRow != _troop.MaxRow)
         {
             _troop.SetMaxRow(_maxRow);
@@ -47,6 +40,11 @@ public class TroopController : MonoBehaviour
     public void Follow()
     {
         _troop.State = TroopState.Follow;
+    }
+
+    public void ChangeFormation(FormationType formationType)
+    {
+        _troop.SetFormation(formationType);
     }
 
 }

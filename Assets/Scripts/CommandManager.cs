@@ -113,9 +113,11 @@ public class CommandManager : MonoBehaviour
                 break;
 
             case CommandMenu.Formation:
+                ExecuteFormationCommand();
                 break;
 
             case CommandMenu.Direction:
+                //ExecuteDirectionCommand();
                 break;
         }
     }
@@ -153,6 +155,41 @@ public class CommandManager : MonoBehaviour
         }
     }
 
+    private void ExecuteFormationCommand()
+    {
+        if (_controls.Command.F1.WasPressedThisFrame())
+        {
+            // 선형
+            Debug.Log($"F2-F1 Pressed");
+            _troopControllers[0].ChangeFormation(FormationType.LineFormation);
+            ResetMenu();
+        }
+        else if (_controls.Command.F2.WasPressedThisFrame())
+        {
+            // 방패벽
+            Debug.Log($"F2-F2 Pressed");
+            ResetMenu();
+        }
+        else if (_controls.Command.F3.WasPressedThisFrame())
+        {
+            // 산개
+            Debug.Log($"F2-F3 Pressed");
+            ResetMenu();
+        }
+        else if (_controls.Command.F4.WasPressedThisFrame())
+        {
+            // 사각
+            Debug.Log($"F2-F4 Pressed");
+            _troopControllers[0].ChangeFormation(FormationType.SquareFormation);
+            ResetMenu();
+        }
+        else if (_controls.Command.Esc.WasPressedThisFrame())
+        {
+            Debug.Log($"F2-Esc Pressed");
+            BackToRoot();
+        }
+    }
+
     private void ResetMenu()
     {
         _commandMenu = CommandMenu.None;
@@ -183,7 +220,6 @@ public class CommandManager : MonoBehaviour
 
     private void UpdateFlag()
     {
-
         if (TryGetLookPoint(out Vector3 point))
         {
             point.y += 1.0f;
