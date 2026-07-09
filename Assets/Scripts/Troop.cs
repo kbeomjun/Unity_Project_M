@@ -69,10 +69,15 @@ public class Troop
         UpdateFormation();
     }
 
+    public void SetDirection(Vector3 direction)
+    {
+        Direction = direction;
+        UpdateFormation();
+    }
+
     public void SetMaxRow(int maxRow)
     {
         if (maxRow < 1) return;
-        
         MaxRow = maxRow;
         UpdateFormation();
     }

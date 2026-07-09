@@ -1,3 +1,4 @@
+using System.Drawing;
 using UnityEngine;
 
 public enum CommandMenu
@@ -194,8 +195,12 @@ public class CommandManager : MonoBehaviour
     {
         if (_controls.Command.F1.WasPressedThisFrame())
         {
-            // 방향
+            // 방향 전환
             Debug.Log($"F3-F1 Pressed");
+            if (TryGetLookPoint(out Vector3 point))
+            {
+                _troopControllers[0].Turn(point);
+            }
             ResetMenu();
         }
         else if (_controls.Command.Esc.WasPressedThisFrame())

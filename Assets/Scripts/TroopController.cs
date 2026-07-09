@@ -15,6 +15,7 @@ public class TroopController : MonoBehaviour
         List<UnitController> controllers = GetComponentsInChildren<UnitController>().ToList();
         List<Unit> units = controllers.Select(c => c.Unit).ToList();
         _troop = new Troop(units);
+        _troop.SetFormation(FormationType.LineFormation);
     }
 
     private void Update()
@@ -45,6 +46,14 @@ public class TroopController : MonoBehaviour
     public void ChangeFormation(FormationType formationType)
     {
         _troop.SetFormation(formationType);
+    }
+
+    public void Turn(Vector3 point)
+    {
+        Vector3 direction = point - _troop.CenterPosition;
+        direction.y = 0.0f;
+        direction.Normalize();
+        _troop.SetDirection(direction);
     }
 
 }
