@@ -46,7 +46,6 @@ public class CommandManager : MonoBehaviour
 
     private void Update()
     {
-        // 숫자는 항상 최우선
         if (HandleTroopSelection())
             return;
 
@@ -97,7 +96,6 @@ public class CommandManager : MonoBehaviour
         _flag.SetActive(false);
         _uiManager.Show(CommandMenu.None);
 
-        Debug.Log($"Troop {index + 1} Selected");
         return true;
     }
 

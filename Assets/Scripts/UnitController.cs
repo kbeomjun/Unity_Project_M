@@ -3,6 +3,8 @@ using UnityEngine;
 public class UnitController : MonoBehaviour
 {
     [SerializeField] private UnitType _unitType;
+    [SerializeField] private float unitRadius = 0.5f;
+    [SerializeField] private LayerMask unitLayer;
 
     private Unit _unit;
     public Unit Unit => _unit;
@@ -69,6 +71,11 @@ public class UnitController : MonoBehaviour
 
     private void Rotate(Vector3 direction)
     {
+        direction.y = 0.0f;
+
+        if (direction.sqrMagnitude < 0.0001f)
+            return;
+
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _unit.RotateSpeed * Time.deltaTime);
     }
@@ -78,9 +85,6 @@ public class UnitController : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, _unit.Position, _unit.MoveSpeed * Time.deltaTime);
         ResolveUnitCollision();
     }
-
-    [SerializeField] private float unitRadius = 0.5f;
-    [SerializeField] private LayerMask unitLayer;
 
     private void ResolveUnitCollision()
     {
