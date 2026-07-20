@@ -18,7 +18,7 @@ public class CommandUIManager : MonoBehaviour
 
         switch (menu)
         {
-            case CommandMenu.Root:
+            case CommandMenu.None:
                 _commandMenuUI.SetActive(true);
                 break;
 

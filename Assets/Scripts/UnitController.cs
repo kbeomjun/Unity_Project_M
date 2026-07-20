@@ -2,17 +2,14 @@ using UnityEngine;
 
 public class UnitController : MonoBehaviour
 {
+    [SerializeField] private UnitType _unitType;
+
     private Unit _unit;
     public Unit Unit => _unit;
 
-    private void Start()
-    {
-        Init();
-    }
-
     public void Init()
     {
-        _unit = new Unit("Infantry", new Vector3(0.0f, 0.0f, 0.0f), UnitType.Infantry);
+        _unit = new Unit(_unitType.ToString(), Vector3.zero, _unitType);
     }
 
     private void Update()

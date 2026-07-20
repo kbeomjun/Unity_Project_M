@@ -237,6 +237,42 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""One"",
+                    ""type"": ""Button"",
+                    ""id"": ""380bd194-a90c-4309-9ee8-231959b4b690"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Two"",
+                    ""type"": ""Button"",
+                    ""id"": ""e8e42451-2603-4b69-bd04-0817b063058a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Three"",
+                    ""type"": ""Button"",
+                    ""id"": ""c3407a8d-969c-40d2-8a4c-340ded0a94c4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Four"",
+                    ""type"": ""Button"",
+                    ""id"": ""388d0f49-e0a5-4bdb-8656-19106407fb17"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -305,6 +341,50 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Tab"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ffc47c76-cfe6-4bfb-b140-69120e1c21a7"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""One"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e61f53b7-aeda-41d7-a677-b0e7f98f4902"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Two"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b1c26feb-b950-4f6b-9ccb-7ec6f0327cce"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Three"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96a67aa9-12f7-4c05-b07c-e9524193f380"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Four"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -323,6 +403,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Command_F4 = m_Command.FindAction("F4", throwIfNotFound: true);
         m_Command_Esc = m_Command.FindAction("Esc", throwIfNotFound: true);
         m_Command_Tab = m_Command.FindAction("Tab", throwIfNotFound: true);
+        m_Command_One = m_Command.FindAction("One", throwIfNotFound: true);
+        m_Command_Two = m_Command.FindAction("Two", throwIfNotFound: true);
+        m_Command_Three = m_Command.FindAction("Three", throwIfNotFound: true);
+        m_Command_Four = m_Command.FindAction("Four", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -517,6 +601,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Command_F4;
     private readonly InputAction m_Command_Esc;
     private readonly InputAction m_Command_Tab;
+    private readonly InputAction m_Command_One;
+    private readonly InputAction m_Command_Two;
+    private readonly InputAction m_Command_Three;
+    private readonly InputAction m_Command_Four;
     /// <summary>
     /// Provides access to input actions defined in input action map "Command".
     /// </summary>
@@ -552,6 +640,22 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Command/Tab".
         /// </summary>
         public InputAction @Tab => m_Wrapper.m_Command_Tab;
+        /// <summary>
+        /// Provides access to the underlying input action "Command/One".
+        /// </summary>
+        public InputAction @One => m_Wrapper.m_Command_One;
+        /// <summary>
+        /// Provides access to the underlying input action "Command/Two".
+        /// </summary>
+        public InputAction @Two => m_Wrapper.m_Command_Two;
+        /// <summary>
+        /// Provides access to the underlying input action "Command/Three".
+        /// </summary>
+        public InputAction @Three => m_Wrapper.m_Command_Three;
+        /// <summary>
+        /// Provides access to the underlying input action "Command/Four".
+        /// </summary>
+        public InputAction @Four => m_Wrapper.m_Command_Four;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -596,6 +700,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Tab.started += instance.OnTab;
             @Tab.performed += instance.OnTab;
             @Tab.canceled += instance.OnTab;
+            @One.started += instance.OnOne;
+            @One.performed += instance.OnOne;
+            @One.canceled += instance.OnOne;
+            @Two.started += instance.OnTwo;
+            @Two.performed += instance.OnTwo;
+            @Two.canceled += instance.OnTwo;
+            @Three.started += instance.OnThree;
+            @Three.performed += instance.OnThree;
+            @Three.canceled += instance.OnThree;
+            @Four.started += instance.OnFour;
+            @Four.performed += instance.OnFour;
+            @Four.canceled += instance.OnFour;
         }
 
         /// <summary>
@@ -625,6 +741,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Tab.started -= instance.OnTab;
             @Tab.performed -= instance.OnTab;
             @Tab.canceled -= instance.OnTab;
+            @One.started -= instance.OnOne;
+            @One.performed -= instance.OnOne;
+            @One.canceled -= instance.OnOne;
+            @Two.started -= instance.OnTwo;
+            @Two.performed -= instance.OnTwo;
+            @Two.canceled -= instance.OnTwo;
+            @Three.started -= instance.OnThree;
+            @Three.performed -= instance.OnThree;
+            @Three.canceled -= instance.OnThree;
+            @Four.started -= instance.OnFour;
+            @Four.performed -= instance.OnFour;
+            @Four.canceled -= instance.OnFour;
         }
 
         /// <summary>
@@ -729,5 +857,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTab(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "One" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnOne(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Two" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTwo(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Three" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnThree(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Four" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFour(InputAction.CallbackContext context);
     }
 }

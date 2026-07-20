@@ -6,6 +6,7 @@ using UnityEngine;
 public class TroopController : MonoBehaviour
 {
     [SerializeField] private PlayerController _player;
+    [SerializeField] private int _troopId;
 
     private Troop _troop;
     private int _maxRow = -1;
@@ -13,8 +14,12 @@ public class TroopController : MonoBehaviour
     private void Start()
     {
         List<UnitController> controllers = GetComponentsInChildren<UnitController>().ToList();
+        foreach (UnitController controller in controllers)
+        {
+            controller.Init();
+        }
         List<Unit> units = controllers.Select(c => c.Unit).ToList();
-        _troop = new Troop(units);
+        _troop = new Troop(_troopId, units);
         _troop.SetFormation(FormationType.LineFormation);
     }
 

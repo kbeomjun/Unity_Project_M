@@ -1,13 +1,11 @@
-using System.Drawing;
 using UnityEngine;
 
 public enum CommandMenu
 {
-    Root,
+    None,
     Move,
     Formation,
-    Direction,
-    None
+    Direction
 }
 
 public enum MoveCommand
@@ -20,12 +18,13 @@ public enum MoveCommand
 public class CommandManager : MonoBehaviour
 {
     [SerializeField] private TroopController[] _troopControllers;
-    [SerializeField] private GameObject _camera;
+    [SerializeField] private Camera _camera;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private GameObject _flag;
     [SerializeField] private CommandUIManager _uiManager;
 
     private CommandMenu _commandMenu = CommandMenu.None;
+    private int _selectedTroop = 0;
 
     private PlayerControls _controls;
 
@@ -47,68 +46,16 @@ public class CommandManager : MonoBehaviour
 
     private void Update()
     {
+        // 숫자는 항상 최우선
+        if (HandleTroopSelection())
+            return;
+
         switch (_commandMenu)
         {
             case CommandMenu.None:
-                UpdateNone();
+                HandleRootInput();
                 break;
 
-            case CommandMenu.Root:
-                SelectMenu();
-                break;
-
-            default:
-                ExecuteCommand();
-                break;
-        }
-
-        UpdateFlag();
-    }
-
-    private void UpdateNone()
-    {
-        if (_controls.Command.Tab.WasPressedThisFrame())
-        {
-            Debug.Log($"Tab Pressed");
-            _commandMenu = CommandMenu.Root;
-            _uiManager.Show(CommandMenu.Root);
-        }
-    }
-
-    private void SelectMenu()
-    {
-        if (_controls.Command.F1.WasPressedThisFrame())
-        {
-            Debug.Log($"F1 Pressed");
-            _commandMenu = CommandMenu.Move;
-            _flag.SetActive(true);
-            _uiManager.Show(_commandMenu);
-        }
-        else if (_controls.Command.F2.WasPressedThisFrame())
-        {
-            Debug.Log($"F2 Pressed");
-            _commandMenu = CommandMenu.Formation;
-            _flag.SetActive(true);
-            _uiManager.Show(_commandMenu);
-        }
-        else if (_controls.Command.F3.WasPressedThisFrame())
-        {
-            Debug.Log($"F3 Pressed");
-            _commandMenu = CommandMenu.Direction;
-            _flag.SetActive(true);
-            _uiManager.Show(_commandMenu);
-        }
-        else if (_controls.Command.Esc.WasPressedThisFrame())
-        {
-            Debug.Log($"Esc Pressed");
-            ResetMenu();
-        }
-    }
-
-    private void ExecuteCommand()
-    {
-        switch (_commandMenu)
-        {
             case CommandMenu.Move:
                 ExecuteMoveCommand();
                 break;
@@ -121,37 +68,89 @@ public class CommandManager : MonoBehaviour
                 ExecuteDirectionCommand();
                 break;
         }
+
+        if (_flag.activeSelf)
+            UpdateFlag();
+    }
+
+    private bool HandleTroopSelection()
+    {
+        int index = -1;
+
+        if (_controls.Command.One.WasPressedThisFrame())
+            index = 0;
+        else if (_controls.Command.Two.WasPressedThisFrame())
+            index = 1;
+        else if (_controls.Command.Three.WasPressedThisFrame())
+            index = 2;
+        else if (_controls.Command.Four.WasPressedThisFrame())
+            index = 3;
+
+        if (index == -1)
+            return false;
+
+        if (index >= _troopControllers.Length)
+            return true;
+
+        _selectedTroop = index;
+        _commandMenu = CommandMenu.None;
+        _flag.SetActive(false);
+        _uiManager.Show(CommandMenu.None);
+
+        Debug.Log($"Troop {index + 1} Selected");
+        return true;
+    }
+
+    private void HandleRootInput()
+    {
+        if (_controls.Command.F1.WasPressedThisFrame())
+        {
+            _commandMenu = CommandMenu.Move;
+            _flag.SetActive(true);
+            _uiManager.Show(CommandMenu.Move);
+        }
+        else if (_controls.Command.F2.WasPressedThisFrame())
+        {
+            _commandMenu = CommandMenu.Formation;
+            _flag.SetActive(true);
+            _uiManager.Show(CommandMenu.Formation);
+        }
+        else if (_controls.Command.F3.WasPressedThisFrame())
+        {
+            _commandMenu = CommandMenu.Direction;
+            _flag.SetActive(true);
+            _uiManager.Show(CommandMenu.Direction);
+        }
+        else if (_controls.Command.Esc.WasPressedThisFrame())
+        {
+            _uiManager.HideAll();
+        }
     }
 
     private void ExecuteMoveCommand()
     {
         if (_controls.Command.F1.WasPressedThisFrame())
         {
-            // 이동
-            Debug.Log($"F1-F1 Pressed");
             if (TryGetLookPoint(out Vector3 point))
             {
                 point.y += 1.0f;
-                _troopControllers[0].Move(point);
+                _troopControllers[_selectedTroop].Move(point);
             }
-            ResetMenu();
+
+            FinishCommand();
         }
         else if (_controls.Command.F2.WasPressedThisFrame())
         {
-            // 따라오기
-            Debug.Log($"F1-F2 Pressed");
-            _troopControllers[0].Follow();
-            ResetMenu();
+            _troopControllers[_selectedTroop].Follow();
+            FinishCommand();
         }
         else if (_controls.Command.F3.WasPressedThisFrame())
         {
-            // 돌격
-            Debug.Log($"F1-F3 Pressed");
-            ResetMenu();
+            Debug.Log("Charge");
+            FinishCommand();
         }
         else if (_controls.Command.Esc.WasPressedThisFrame())
         {
-            Debug.Log($"F1-Esc Pressed");
             BackToRoot();
         }
     }
@@ -160,33 +159,24 @@ public class CommandManager : MonoBehaviour
     {
         if (_controls.Command.F1.WasPressedThisFrame())
         {
-            // 선형
-            Debug.Log($"F2-F1 Pressed");
-            _troopControllers[0].ChangeFormation(FormationType.LineFormation);
-            ResetMenu();
+            _troopControllers[_selectedTroop].ChangeFormation(FormationType.LineFormation);
+            FinishCommand();
         }
         else if (_controls.Command.F2.WasPressedThisFrame())
         {
-            // 방패벽
-            Debug.Log($"F2-F2 Pressed");
-            ResetMenu();
+            FinishCommand();
         }
         else if (_controls.Command.F3.WasPressedThisFrame())
         {
-            // 산개
-            Debug.Log($"F2-F3 Pressed");
-            ResetMenu();
+            FinishCommand();
         }
         else if (_controls.Command.F4.WasPressedThisFrame())
         {
-            // 사각
-            Debug.Log($"F2-F4 Pressed");
-            _troopControllers[0].ChangeFormation(FormationType.SquareFormation);
-            ResetMenu();
+            _troopControllers[_selectedTroop].ChangeFormation(FormationType.SquareFormation);
+            FinishCommand();
         }
         else if (_controls.Command.Esc.WasPressedThisFrame())
         {
-            Debug.Log($"F2-Esc Pressed");
             BackToRoot();
         }
     }
@@ -195,22 +185,20 @@ public class CommandManager : MonoBehaviour
     {
         if (_controls.Command.F1.WasPressedThisFrame())
         {
-            // 방향 전환
-            Debug.Log($"F3-F1 Pressed");
             if (TryGetLookPoint(out Vector3 point))
             {
-                _troopControllers[0].Turn(point);
+                _troopControllers[_selectedTroop].Turn(point);
             }
-            ResetMenu();
+
+            FinishCommand();
         }
         else if (_controls.Command.Esc.WasPressedThisFrame())
         {
-            Debug.Log($"F3-Esc Pressed");
             BackToRoot();
         }
     }
 
-    private void ResetMenu()
+    private void FinishCommand()
     {
         _commandMenu = CommandMenu.None;
         _flag.SetActive(false);
@@ -219,16 +207,16 @@ public class CommandManager : MonoBehaviour
 
     private void BackToRoot()
     {
-        _commandMenu = CommandMenu.Root;
+        _commandMenu = CommandMenu.None;
         _flag.SetActive(false);
-        _uiManager.Show(CommandMenu.Root);
+        _uiManager.Show(CommandMenu.None);
     }
 
     private bool TryGetLookPoint(out Vector3 point)
     {
         Ray ray = new Ray(_camera.transform.position, _camera.transform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f, _groundLayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, _groundLayer))
         {
             point = hit.point;
             return true;
